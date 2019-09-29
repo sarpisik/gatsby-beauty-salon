@@ -1,26 +1,19 @@
 import React from "react"
+import BackgroundImage from "gatsby-background-image"
 
-const Slide = ({ image, title, text }, index) => {
-  const backgroundImage = `url(${image})`
-  return (
-    <li
-      key={index}
-      style={{
-        backgroundImage,
-      }}
-    >
-      <div className="overlay-gradient"></div>
-      <div className="container">
-        <div className="col-md-8 col-md-offset-2 col-md-push-4 js-fullheight slider-text">
-          <div className="slider-text-inner">
-            <h2>{title}</h2>
-            <span>{text}</span>
-          </div>
+const Slide = ({ slide, title, text }, index) => (
+  <BackgroundImage Tag="li" key={index} fluid={slide}>
+    <div className="overlay-gradient"></div>
+    <div className="container">
+      <div className="col-md-8 col-md-offset-2 col-md-push-4 js-fullheight slider-text">
+        <div className="slider-text-inner">
+          <h2>{title}</h2>
+          <span>{text}</span>
         </div>
       </div>
-    </li>
-  )
-}
+    </div>
+  </BackgroundImage>
+)
 
 const Slides = ({ slides }) => (
   <aside id="fh5co-hero" className="js-fullheight">

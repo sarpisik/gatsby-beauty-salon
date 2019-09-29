@@ -16,7 +16,7 @@ import "../sass/style.scss"
 import Header from "./Header"
 import { capitalizeLetter } from "../lib/helper"
 
-const Layout = ({ children }) => {
+const Layout = ({ children, location }) => {
   const data = useStaticQuery(graphql`
     query SiteTitleQuery {
       site {
@@ -27,18 +27,36 @@ const Layout = ({ children }) => {
     }
   `)
 
-  useEffect(runJquery, [])
+  useEffect(runJquery, [location])
 
   return (
     <>
+      <Helmet>
+        <link src={withPrefix("/css/animate.css")} />
+        <link src={withPrefix("/css/flexslider.css")} />
+        <link src={withPrefix("/css/icomoon.css")} />
+
+        {/* jQuery */}
+        <script src={withPrefix("js/jquery.min.js")}></script>
+        {/* jQuery Easing */}
+        <script src={withPrefix("js/jquery.easing.1.3.js")}></script>
+        {/*  Bootstrap */}
+        <script src={withPrefix("js/bootstrap.min.js")}></script>
+        {/* Waypoints */}
+        <script src={withPrefix("js/jquery.waypoints.min.js")}></script>
+        {/* Counters */}
+        <script src={withPrefix("js/jquery.countTo.js")}></script>
+        {/* Flexslider */}
+        <script src={withPrefix("js/jquery.flexslider-min.js")}></script>
+      </Helmet>
       <NavBar
         links={[
-          { name: "home", to: "home" },
-          { name: "salon", to: "salon" },
-          { name: "products", to: "products" },
-          { name: "services", to: "services" },
-          { name: "about", to: "about" },
-          { name: "contact", to: "contact" },
+          { name: "home", to: "/" },
+          { name: "salon", to: "/salon" },
+          { name: "products", to: "/products" },
+          { name: "services", to: "/services" },
+          { name: "about", to: "/about" },
+          { name: "contact", to: "/contact" },
         ]}
         iconLinks={[
           { icon: "facebook2", url: "" },

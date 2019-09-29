@@ -1,6 +1,12 @@
 export default function() {
   const jQuery = window && window.jQuery
+  if (!jQuery) return
 
+  // // Display off nav menu on page change
+  // if (jQuery("body").hasClass("menu-show")) {
+  //   jQuery("body").removeClass("menu-show")
+  //   jQuery("#fh5co-main-nav > .js-fh5co-nav-toggle").removeClass("show")
+  // }
   // iPad and iPod detection
   var isiPad = function() {
     return navigator.platform.indexOf("iPad") != -1
@@ -28,13 +34,15 @@ export default function() {
         jQuery("body").removeClass("menu-show")
         jQuery("#fh5co-main-nav > .js-fh5co-nav-toggle").removeClass("show")
       } else {
-        console.log(jQuery("body"))
-
         jQuery("body").addClass("menu-show")
         setTimeout(function() {
           jQuery("#fh5co-main-nav > .js-fh5co-nav-toggle").addClass("show")
         }, 900)
       }
+    })
+    jQuery("nav li a").on("click", function() {
+      jQuery("body").removeClass("menu-show")
+      jQuery("#fh5co-main-nav > .js-fh5co-nav-toggle").removeClass("show")
     })
   }
 
