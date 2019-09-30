@@ -3,21 +3,13 @@ import React from "react"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 
-import salon1 from "../images/salon/salon_1.jpg"
-import salon2 from "../images/salon/salon_2.jpg"
-import salon3 from "../images/salon/salon_3.jpg"
-import salon4 from "../images/salon/salon_4.jpg"
-
-import product1 from "../images/product_1.jpg"
-import product2 from "../images/product_2.jpg"
-import product3 from "../images/product_3.jpg"
 import hero from "../images/hero.jpg"
 import Intro from "../components/Intro"
 import Slides from "../components/Slides"
 import SectionHeader from "../components/SectionHeader"
 import Service from "../components/Service"
 import { Link } from "gatsby"
-import { mapImagesToFluid } from "../lib/helper"
+import { mapImagesToFluid, capitalizeLetter } from "../lib/helper"
 import { BackgroundImage } from "../components/Image"
 
 export const query = graphql`
@@ -48,12 +40,28 @@ export const query = graphql`
         }
       }
     }
+
+    productImages: allFile(
+      limit: 3
+      filter: { relativeDirectory: { eq: "product" } }
+    ) {
+      edges {
+        node {
+          childImageSharp {
+            fluid(quality: 100, maxWidth: 2560) {
+              ...GatsbyImageSharpFluid_withWebp
+            }
+          }
+        }
+      }
+    }
   }
 `
 
 const IndexPage = ({ data }) => {
   const slides = mapImagesToFluid(data.slides)
   const salonImages = mapImagesToFluid(data.salonImages)
+  const productImages = mapImagesToFluid(data.productImages)
   return (
     <Layout>
       <SEO title="Home" />
@@ -142,7 +150,7 @@ const IndexPage = ({ data }) => {
                     to="salon"
                     className="btn btn-primary btn-outline btn-lg"
                   >
-                    See More Project
+                    {capitalizeLetter("check salon")}
                   </Link>
                 </p>
               </div>
@@ -163,34 +171,23 @@ const IndexPage = ({ data }) => {
             {[
               {
                 text: "product 1",
-                image: {
-                  src: product1,
-                  alt: "Photo by Skitterphoto from Pexels",
-                },
+                image: productImages[0],
               },
               {
                 text: "product 2",
-                image: {
-                  src: product2,
-                  alt: "Photo by Dana Tentis from Pexels",
-                },
+                image: productImages[1],
               },
               {
                 text: "product 3",
-                image: {
-                  src: product3,
-                  alt: "Photo by Asad Photo Maldives from Pexels",
-                },
+                image: productImages[2],
               },
             ].map(({ text, image }, index) => (
               <div
                 key={index}
                 className="col-md-4 prod text-center animate-box"
               >
-                <img className="img-responsive" {...image} />
-                <h3>
-                  <a href="#">{text}</a>
-                </h3>
+                <BackgroundImage fluid={image} className="product" />
+                <h3>{text}</h3>
               </div>
             ))}
             <div className="row">

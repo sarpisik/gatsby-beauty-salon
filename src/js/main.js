@@ -2,11 +2,6 @@ export default function() {
   const jQuery = window && window.jQuery
   if (!jQuery) return
 
-  // // Display off nav menu on page change
-  // if (jQuery("body").hasClass("menu-show")) {
-  //   jQuery("body").removeClass("menu-show")
-  //   jQuery("#fh5co-main-nav > .js-fh5co-nav-toggle").removeClass("show")
-  // }
   // iPad and iPod detection
   var isiPad = function() {
     return navigator.platform.indexOf("iPad") != -1
@@ -23,26 +18,6 @@ export default function() {
     jQuery(".js-fullheight").css("height", jQuery(window).height())
     jQuery(window).resize(function() {
       jQuery(".js-fullheight").css("height", jQuery(window).height())
-    })
-  }
-
-  var burgerMenu = function() {
-    jQuery(".js-fh5co-nav-toggle").on("click", function(event) {
-      event.preventDefault()
-      var jQuerythis = jQuery(this)
-      if (jQuery("body").hasClass("menu-show")) {
-        jQuery("body").removeClass("menu-show")
-        jQuery("#fh5co-main-nav > .js-fh5co-nav-toggle").removeClass("show")
-      } else {
-        jQuery("body").addClass("menu-show")
-        setTimeout(function() {
-          jQuery("#fh5co-main-nav > .js-fh5co-nav-toggle").addClass("show")
-        }, 900)
-      }
-    })
-    jQuery("nav li a").on("click", function() {
-      jQuery("body").removeClass("menu-show")
-      jQuery("#fh5co-main-nav > .js-fh5co-nav-toggle").removeClass("show")
     })
   }
 
@@ -130,7 +105,6 @@ export default function() {
   // Document on load.
   jQuery(function() {
     fullHeight()
-    burgerMenu()
     counter()
     sliderMain()
     contentWayPoint()

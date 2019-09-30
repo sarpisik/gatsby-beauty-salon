@@ -5,7 +5,7 @@
  * See: https://www.gatsbyjs.org/docs/use-static-query/
  */
 
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import Helmet from "react-helmet"
 import PropTypes from "prop-types"
 import { useStaticQuery, graphql, withPrefix, Link } from "gatsby"
@@ -15,6 +15,8 @@ import "../sass/bootstrap.scss"
 import "../sass/style.scss"
 import Header from "./Header"
 import { capitalizeLetter } from "../lib/helper"
+
+const toggleActiveState = active => !active
 
 const Layout = ({ children, location }) => {
   const data = useStaticQuery(graphql`
@@ -26,8 +28,13 @@ const Layout = ({ children, location }) => {
       }
     }
   `)
+  const [active, setActive] = useState(false)
 
-  useEffect(runJquery, [location])
+  useEffect(runJquery)
+  const toggleNavList = () => {
+    document.body.classList.toggle("menu-show")
+    setTimeout(() => setActive(toggleActiveState), 900)
+  }
 
   return (
     <>
@@ -50,11 +57,12 @@ const Layout = ({ children, location }) => {
         <script src={withPrefix("js/jquery.flexslider-min.js")}></script>
       </Helmet>
       <NavBar
+        onClickMenu={toggleNavList}
+        menuOpen={active}
         links={[
           { name: "home", to: "/" },
           { name: "salon", to: "/salon" },
           { name: "products", to: "/products" },
-          { name: "services", to: "/services" },
           { name: "about", to: "/about" },
           { name: "contact", to: "/contact" },
         ]}
@@ -65,7 +73,7 @@ const Layout = ({ children, location }) => {
         ]}
       />
       <div id="fh5co-page">
-        <Header brand="Minimal" />
+        <Header onClickMenu={toggleNavList} brand="minimal" />
         {children}
       </div>
       <footer>
@@ -107,7 +115,7 @@ const Layout = ({ children, location }) => {
                 <h3 className="section-title">Information</h3>
                 <ul>
                   <li>
-                    <Link to="contact">{capitalizeLetter("contact us")}</Link>
+                    <Link to="/contact">{capitalizeLetter("contact us")}</Link>
                   </li>
                 </ul>
               </div>

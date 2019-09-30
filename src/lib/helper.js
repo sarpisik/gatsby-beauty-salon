@@ -9,9 +9,13 @@ export function mapEdgesToNodes(data) {
   return data.edges.map(edge => edge.node)
 }
 
-export function mapImagesToFluid(data, cloud = false) {
+export function mapImagesToFluid(data, fixed = false, cloud = false) {
   return mapEdgesToNodes(data).map(
-    cloud ? mapCloudImageToSources : mapLocalImageToSources
+    cloud
+      ? mapCloudImageToSources
+      : fixed
+      ? mapLocalImageFixedToSources
+      : mapLocalImageToSources
   )
 }
 
@@ -69,6 +73,10 @@ function mapCloudImageToSources({
 
 function mapLocalImageToSources({ childImageSharp: { fluid } }) {
   return fluid
+}
+
+function mapLocalImageFixedToSources({ childImageSharp: { fixed } }) {
+  return fixed
 }
 
 function mapNodeToAttribute(node, key) {

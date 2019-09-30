@@ -4,7 +4,7 @@ import BackgroundImage from "gatsby-background-image"
 const Slide = ({ slide, title, text }, index) => (
   <BackgroundImage Tag="li" key={index} fluid={slide}>
     <div className="overlay-gradient"></div>
-    <div className="container">
+    <div className="overlay">
       <div className="col-md-8 col-md-offset-2 col-md-push-4 js-fullheight slider-text">
         <div className="slider-text-inner">
           <h2>{title}</h2>
