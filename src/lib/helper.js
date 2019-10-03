@@ -1,8 +1,14 @@
+import polyfill from "./polyfill"
+polyfill()
+
 export function capitalizeLetter(text, locale = "tr-TR") {
+  if (typeof text === "string")
+    return text
+      .split(" ")
+      .map(word => word.charAt(0).toLocaleUpperCase(locale) + word.slice(1))
+      .join(" ")
+
   return text
-    .split(" ")
-    .map(word => word.charAt(0).toLocaleUpperCase(locale) + word.slice(1))
-    .join(" ")
 }
 export function mapEdgesToNodes(data) {
   if (!data.edges) return []
@@ -85,4 +91,40 @@ function mapNodeToAttribute(node, key) {
 
 function mapNodeToSlug(node) {
   return mapNodeToAttribute(node, "slug").current
+}
+
+// Schedule Helpers
+
+export function setResponse(setState) {
+  return function(respond) {
+    const responseObject = Array.isArray(respond)
+      ? respond[0] // Fetch success.
+      : respond.statusCode && respond.statusCode !== 200
+      ? respond.response.body // Fetch error.
+      : respond.result // Listen success.
+    setState({ isLoading: false, ...responseObject })
+  }
+}
+
+export function getTimeRows(data) {
+  return data.slice(1).map(({ _type, ...rest }) => ({ ...rest }))
+}
+
+export function parseRows(rows) {
+  return rows.map(refactorCells)
+}
+
+function refactorCells(row) {
+  return {
+    ...row,
+    cells: row.cells.map((cell, index) =>
+      index < 1
+        ? cell
+        : cell === "x"
+        ? "break"
+        : cell === "-"
+        ? "free"
+        : "reserved"
+    ),
+  }
 }

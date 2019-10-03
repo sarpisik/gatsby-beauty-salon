@@ -1,6 +1,6 @@
 import React from "react"
-import SectionHeader from "../components/SectionHeader"
 import { mapImagesToFluid } from "../lib/helper"
+import SectionHeader from "../components/SectionHeader"
 import Layout from "../components/layout"
 import BackgroundImage from "gatsby-background-image"
 
